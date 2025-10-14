@@ -109,26 +109,26 @@ export default function Home() {
 
         {/* Content */}
         <div className="relative z-10 h-full flex items-center justify-center">
-          <div className="text-center max-w-4xl mx-auto px-4">
-            <h1 className="font-display text-5xl md:text-7xl font-bold mb-6 text-white drop-shadow-2xl">B&J Hotel</h1>
-            <p className="text-xl md:text-2xl mb-8 text-white drop-shadow-lg">Your Home Away From Home in Akure</p>
-            <p className="text-lg md:text-xl mb-12 text-white drop-shadow-lg max-w-2xl mx-auto">
+          <div className="text-center max-w-4xl mx-auto px-4 sm:px-6">
+            <h1 className="font-display text-4xl sm:text-5xl md:text-7xl font-bold mb-4 sm:mb-6 text-white drop-shadow-2xl">B&J Hotel</h1>
+            <p className="text-lg sm:text-xl md:text-2xl mb-4 sm:mb-8 text-white drop-shadow-lg">Your Home Away From Home in Akure</p>
+            <p className="text-base sm:text-lg md:text-xl mb-8 sm:mb-12 text-white drop-shadow-lg max-w-2xl mx-auto">
               Experience comfort, luxury, and exceptional hospitality in the heart of Oba Afunbiowo Estate
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a href="#contact" className="bg-secondary hover:bg-yellow-500 text-primary font-semibold px-8 py-4 rounded-lg transition-colors shadow-lg">Book Now</a>
-              <a href="#about" className="border-2 border-white hover:bg-white hover:text-primary text-white font-semibold px-8 py-4 rounded-lg transition-colors shadow-lg">Learn More</a>
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+              <a href="#contact" className="bg-secondary hover:bg-yellow-500 text-primary font-semibold px-6 sm:px-8 py-3 sm:py-4 rounded-lg transition-colors shadow-lg text-sm sm:text-base">Book Now</a>
+              <a href="#about" className="border-2 border-white hover:bg-white hover:text-primary text-white font-semibold px-6 sm:px-8 py-3 sm:py-4 rounded-lg transition-colors shadow-lg text-sm sm:text-base">Learn More</a>
             </div>
           </div>
         </div>
 
         {/* Controls */}
         <div className="relative z-10 pointer-events-none">
-          <div className="absolute inset-x-0 bottom-8 flex items-center justify-center gap-3">
+          <div className="absolute inset-x-0 bottom-4 sm:bottom-8 flex items-center justify-center gap-2 sm:gap-3">
             {heroSlides.map((_, index) => (
               <button
                 key={index}
-                className={`pointer-events-auto h-2 w-8 rounded-full transition-all ${index === currentSlide ? 'bg-white' : 'bg-white/40'}`}
+                className={`pointer-events-auto h-1.5 sm:h-2 w-6 sm:w-8 rounded-full transition-all ${index === currentSlide ? 'bg-white' : 'bg-white/40'}`}
                 onClick={() => setCurrentSlide(index)}
                 aria-label={`Go to slide ${index + 1}`}
               />
