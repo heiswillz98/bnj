@@ -1,10 +1,25 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  // Hero carousel state
+  const heroSlides = [
+    { id: 1, src: "/assets/exterior.jpg", label: "B&J Hotel Exterior", bg: "from-primary to-blue-800" },
+    { id: 2, src: "/assets/exterior2.jpg", label: "B&J Hotel Exterior", bg: "from-blue-900 to-primary" },
+    { id: 3, src: "/assets/exterior3.JPG", label: "B&J Hotel Exterior", bg: "from-primary to-blue-700" },
+  ];
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+    }, 5000);
+    return () => clearInterval(intervalId);
+  }, []);
   return (
     <div className="min-h-screen bg-accent">
       {/* Navigation */}
@@ -58,8 +73,8 @@ export default function Home() {
                 onClick={() => setIsMenuOpen(false)}
               >
                 Gallery
-              </a>
-              <a 
+          </a>
+          <a
                 href="#contact" 
                 className="block text-gray-700 hover:text-primary transition-colors py-2"
                 onClick={() => setIsMenuOpen(false)}
@@ -71,32 +86,53 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center bg-gradient-to-br from-primary to-blue-800 text-white">
-        <div className="absolute inset-0 bg-black/20"></div>
-        <div className="relative z-10 text-center max-w-4xl mx-auto px-4">
-          <h1 className="font-display text-5xl md:text-7xl font-bold mb-6">
-            B&J Hotel
-          </h1>
-          <p className="text-xl md:text-2xl mb-8 text-blue-100">
-            Your Home Away From Home in Akure
-          </p>
-          <p className="text-lg md:text-xl mb-12 text-blue-200 max-w-2xl mx-auto">
-            Experience comfort, luxury, and exceptional hospitality in the heart of Oba Afunbiowo Estate
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a 
-              href="#contact" 
-              className="bg-secondary hover:bg-yellow-500 text-primary font-semibold px-8 py-4 rounded-lg transition-colors"
-            >
-              Book Now
-            </a>
-            <a 
-              href="#about" 
-              className="border-2 border-white hover:bg-white hover:text-primary text-white font-semibold px-8 py-4 rounded-lg transition-colors"
-            >
-              Learn More
-            </a>
+      {/* Hero Section - Carousel */}
+      <section className="relative h-screen text-white overflow-hidden">
+        {/* Slides */}
+        <div className="absolute inset-0">
+          {heroSlides.map((slide, index) => (
+            <div
+              key={slide.id}
+              className={`absolute inset-0 transition-opacity duration-700 ease-out ${index === currentSlide ? 'opacity-100' : 'opacity-0'}`}
+        >
+          <Image
+                src={slide.src}
+                alt={slide.label}
+                fill
+                className="object-cover"
+                priority={index === 0}
+              />
+              <div className="absolute inset-0 bg-black/50" />
+            </div>
+          ))}
+        </div>
+
+        {/* Content */}
+        <div className="relative z-10 h-full flex items-center justify-center">
+          <div className="text-center max-w-4xl mx-auto px-4">
+            <h1 className="font-display text-5xl md:text-7xl font-bold mb-6 text-white drop-shadow-2xl">B&J Hotel</h1>
+            <p className="text-xl md:text-2xl mb-8 text-white drop-shadow-lg">Your Home Away From Home in Akure</p>
+            <p className="text-lg md:text-xl mb-12 text-white drop-shadow-lg max-w-2xl mx-auto">
+              Experience comfort, luxury, and exceptional hospitality in the heart of Oba Afunbiowo Estate
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <a href="#contact" className="bg-secondary hover:bg-yellow-500 text-primary font-semibold px-8 py-4 rounded-lg transition-colors shadow-lg">Book Now</a>
+              <a href="#about" className="border-2 border-white hover:bg-white hover:text-primary text-white font-semibold px-8 py-4 rounded-lg transition-colors shadow-lg">Learn More</a>
+            </div>
+          </div>
+        </div>
+
+        {/* Controls */}
+        <div className="relative z-10 pointer-events-none">
+          <div className="absolute inset-x-0 bottom-8 flex items-center justify-center gap-3">
+            {heroSlides.map((_, index) => (
+              <button
+                key={index}
+                className={`pointer-events-auto h-2 w-8 rounded-full transition-all ${index === currentSlide ? 'bg-white' : 'bg-white/40'}`}
+                onClick={() => setCurrentSlide(index)}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
           </div>
         </div>
       </section>
@@ -148,6 +184,39 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Rooms Section */}
+      <section id="rooms" className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="font-display text-4xl md:text-5xl font-bold text-primary mb-6">Rooms</h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">Explore our comfortable selections designed for every traveler.</p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              { id: 1, src: "/assets/bedroom1.JPG", title: "Room A", desc: "Comfortable and well-appointed" },
+              { id: 2, src: "/assets/bedroom2.JPG", title: "Room B", desc: "Spacious with modern amenities" },
+              { id: 3, src: "/assets/bedroom3.JPG", title: "Room C", desc: "Premium comfort and style" }
+            ].map((room) => (
+              <div key={room.id} className="rounded-xl overflow-hidden border border-gray-200 bg-white shadow-sm">
+                <div className="relative aspect-[4/3]">
+          <Image
+                    src={room.src}
+                    alt={room.title}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <div className="p-4">
+                  <h3 className="text-lg font-semibold text-primary">{room.title}</h3>
+                  <p className="text-gray-600 text-sm mt-1">{room.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Location Section */}
       <section id="location" className="py-20 bg-accent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -187,8 +256,18 @@ export default function Home() {
               </div>
             </div>
             
-            <div className="bg-gray-200 h-80 rounded-lg flex items-center justify-center">
-              <p className="text-gray-500">Map placeholder - Add Google Maps integration here</p>
+            <div className="h-80 rounded-lg overflow-hidden shadow-lg">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3956.123456789!2d5.2055!3d7.2500!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zN8KwMTUnMDAuMCJOIDXCsDEyJzE5LjgiRQ!5e0!3m2!1sen!2sng!4v1234567890123!5m2!1sen!2sng"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="B&J Hotel Location - Oba Afunbiowo Estate, Idanre Road, Akure"
+                className="w-full h-full"
+              />
             </div>
           </div>
         </div>
@@ -206,10 +285,27 @@ export default function Home() {
             </p>
           </div>
           
+          {/* Gallery with real images */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[1, 2, 3, 4, 5, 6].map((item) => (
-              <div key={item} className="bg-gray-200 h-64 rounded-lg flex items-center justify-center">
-                <p className="text-gray-500">Photo {item} placeholder</p>
+            {[
+              { src: "/assets/exterior.jpg", alt: "B&J Hotel Exterior" },
+              { src: "/assets/exterior2.jpg", alt: "B&J Hotel Exterior" },
+              { src: "/assets/exterior3.JPG", alt: "B&J Hotel Exterior" },
+              { src: "/assets/entrance1.JPG", alt: "B&J Hotel Entrance" },
+              { src: "/assets/hall.JPG", alt: "B&J Hotel Hall" },
+              { src: "/assets/lounge1.JPG", alt: "B&J Hotel Lounge" },
+              { src: "/assets/bedroom1.JPG", alt: "B&J Hotel Room" },
+              { src: "/assets/bedroom2.JPG", alt: "B&J Hotel Room" },
+              { src: "/assets/bedroom3.JPG", alt: "B&J Hotel Room" }
+            ].map((image, index) => (
+              <div key={index} className="relative h-64 rounded-lg overflow-hidden group cursor-pointer">
+          <Image
+                  src={image.src}
+                  alt={image.alt}
+                  fill
+                  className="object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
               </div>
             ))}
           </div>
@@ -236,7 +332,14 @@ export default function Home() {
                   <span className="text-secondary text-xl">📞</span>
                   <div>
                     <p className="font-semibold">Phone Numbers</p>
-                    <p className="text-blue-100">08033020325</p>
+                    <a 
+                      href="https://wa.me/2348033020325?text=Hi%20B%26J%20Hotel!%20I'm%20interested%20in%20booking%20a%20room.%20Please%20send%20me%20more%20information."
+          target="_blank"
+          rel="noopener noreferrer"
+                      className="text-blue-100 hover:text-secondary transition-colors block"
+                    >
+                      📱 08033020325 (WhatsApp)
+                    </a>
                     <p className="text-blue-100">09059752206</p>
                     <p className="text-blue-100">09059751697</p>
                   </div>
@@ -286,12 +389,15 @@ export default function Home() {
                     className="w-full px-4 py-3 rounded-lg bg-white/20 border border-white/30 text-white placeholder-blue-200 focus:outline-none focus:border-secondary"
                   ></textarea>
                 </div>
-                <button 
-                  type="submit"
-                  className="w-full bg-secondary hover:bg-yellow-500 text-primary font-semibold px-6 py-3 rounded-lg transition-colors"
+                <a 
+                  href="https://wa.me/2348033020325?text=Hi%20B%26J%20Hotel!%20I'm%20interested%20in%20booking%20a%20room.%20Please%20send%20me%20more%20information."
+          target="_blank"
+          rel="noopener noreferrer"
+                  className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors flex items-center justify-center gap-2"
                 >
-                  Send Message
-                </button>
+                  <span>📱</span>
+                  WhatsApp Us
+                </a>
               </form>
             </div>
           </div>
