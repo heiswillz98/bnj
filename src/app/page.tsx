@@ -248,8 +248,9 @@ export default function Home() {
               <div className="mt-8">
                 <h4 className="text-lg font-semibold text-primary mb-4">Nearby Attractions</h4>
                 <ul className="space-y-2 text-gray-600">
+                  <li>• Idanre Hill - 15 minutes</li>
+                  <li>• Federal University of Technology (FUTA) - 15 minutes</li>
                   <li>• Akure City Center - 10 minutes</li>
-                  <li>• Federal University of Technology - 15 minutes</li>
                   <li>• Akure Airport - 20 minutes</li>
                   <li>• Shopping Centers - 5 minutes</li>
                 </ul>
